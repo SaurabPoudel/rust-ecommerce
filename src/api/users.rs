@@ -27,6 +27,7 @@ pub struct Claims {
 pub struct UserResponse {
     id: uuid::Uuid,
     username: String,
+    email: String,
     created_at: chrono::DateTime<chrono::Utc>,
     updated_at: chrono::DateTime<chrono::Utc>,
 }
@@ -36,6 +37,7 @@ impl From<User> for UserResponse {
         Self {
             id: user.id,
             username: user.username,
+            email: user.email,
             created_at: user.created_at,
             updated_at: user.updated_at,
         }

@@ -7,6 +7,7 @@ use bcrypt::{hash, DEFAULT_COST};
 #[derive(Debug, Deserialize)]
 pub struct CreateUser {
     pub username: String,
+    pub email: String,
     pub password: String,
 }
 
@@ -19,12 +20,13 @@ pub async fn create_user(
     let user = sqlx::query_as!(
         User,
         r#"
-        INSERT INTO users (id, username, password_hash)
-        VALUES ($1, $2, $3)
-        RETURNING id, username, password_hash, created_at, updated_at
+        INSERT INTO users (id, username, email, password_hash)
+        VALUES ($1, $2, $3, $4)
+        RETURNING id, username, email, password_hash, created_at, updated_at
         "#,
         Uuid::new_v4(),
         new_user.username,
+        new_user.email,
         password_hash,
     )
     .fetch_one(db_pool)
@@ -40,7 +42,7 @@ pub async fn find_by_username(
     let user = sqlx::query_as!(
         User,
         r#"
-        SELECT id, username, password_hash, created_at, updated_at
+        SELECT id, username, email, password_hash, created_at, updated_at
         FROM users
         WHERE username = $1
         "#,

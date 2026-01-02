@@ -46,3 +46,19 @@ pub async fn list_products(db_pool: &PgPool) -> Result<Vec<Product>, sqlx::Error
 
     Ok(products)
 }
+
+pub async fn get_product(db_pool: &PgPool, id: Uuid) -> Result<Option<Product>, sqlx::Error> {
+    let product = sqlx::query_as!(
+        Product,
+        r#"
+        SELECT id, name, description, price, created_at, updated_at
+        FROM products
+        WHERE id = $1
+        "#,
+        id
+    )
+    .fetch_optional(db_pool)
+    .await?;
+
+    Ok(product)
+}
