@@ -1,11 +1,4 @@
-mod config;
-mod api;
-mod domain;
-mod routes;
-mod db;
-mod app_state;
-
-use crate::{
+use rust_ecommerce::{
     app_state::AppState, 
     db::create_db_pool, 
     routes::create_router

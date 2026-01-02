@@ -1,10 +1,11 @@
 use crate::domain::models::User;
-use serde::Deserialize;
 use sqlx::PgPool;
 use uuid::Uuid;
 use bcrypt::{hash, DEFAULT_COST};
 
-#[derive(Debug, Deserialize)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct CreateUser {
     pub username: String,
     pub email: String,
